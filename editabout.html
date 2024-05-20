@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Edit About Us - AirBib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #2E2E2E;
+      color: #fff;
+    }
+    .section {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #2E2E2E;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .container h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .container textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+    .container button {
+      background: #fff;
+      color: #2E2E2E;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
+<div class="section">
+  <div class="container text-center">
+    <h2>Edit About Us</h2>
+    <form id="edit-aboutus-form">
+      <textarea id="aboutus-content" placeholder="Enter new About Us content here..."></textarea>
+      <button type="button" onclick="saveAboutUs()">Save</button>
+    </form>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const savedContent = localStorage.getItem('aboutus-content');
+    if (savedContent) {
+      document.getElementById('aboutus-content').value = savedContent;
+    }
+  });
+
+  function saveAboutUs() {
+    const content = document.getElementById('aboutus-content').value;
+    localStorage.setItem('aboutus-content', content);
+    alert('Content saved successfully.');
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

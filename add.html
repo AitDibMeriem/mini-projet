@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            color: #0f0f0e;
+            background-color: #c6e1b9;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            background-color: #464846;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        header nav a.active {
+            font-weight: bold;
+        }
+
+        .card {
+            width: 600px;
+            height: 600px;
+            border-radius: 30px;
+            box-shadow: 15px 15px 30px rgb(25, 25, 25),
+                        -15px -15px 30px rgb(60, 60, 60);
+            background-color: #b2bea1;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #main-content {
+            width: 100%;
+        }
+
+        #main-content h2 {
+            margin-top: 0;
+            color: #0f0e0e;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        header {
+            background-color: #1a2326;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #4c627b;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .flights-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+  
+        
+    <div class="card">
+        <div id="main-content">
+            <h2>Add New Flight</h2>
+            <form id="flightForm">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" required>
+                
+                <label for="currentLocation">Current Location:</label>
+                <input type="text" id="currentLocation" name="currentLocation" required>
+                
+                <label for="departure">Departure Date:</label>
+                <input type="date" id="departure" name="departure" required>
+                
+                <label for="returnDate">Return Date:</label>
+                <input type="date" id="returnDate" name="returnDate" required>
+                
+                <label for="picture">Upload Picture:</label>
+                <input type="file" id="picture" name="picture" accept="image/*" required>
+                
+                <input type="submit" value="Add Flight">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("flightForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let fileInput = document.getElementById("picture");
+            let file = fileInput.files[0];
+
+            if (file) {
+                let reader = new FileReader();
+
+                reader.onload = function(event) {
+                    let imageData = event.target.result;
+
+                    let flights = JSON.parse(localStorage.getItem("flights")) || [];
+
+                    let newFlight = {
+                        destination: document.getElementById("destination").value,
+                        currentLocation: document.getElementById("currentLocation").value,
+                        departure: document.getElementById("departure").value,
+                        returnDate: document.getElementById("returnDate").value,
+                        picture: imageData
+                    };
+
+                    flights.push(newFlight);
+                    localStorage.setItem("flights", JSON.stringify(flights));
+                    window.location.href = "flight.html";
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>

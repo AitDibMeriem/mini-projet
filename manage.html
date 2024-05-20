@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Flights</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #1a2326;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #4c627b;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+        .flights-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #74bad6;
+            margin: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card p {
+            margin: 10px 0;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            max-height: 70%;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .card button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: darkred;
+        }
+    </style>
+    <header>
+        <h1>Manage Flights</h1>
+        <nav>
+            <a href="admin.html">HOME</a>
+            <a href="add.html">ADD NEW FLIGHT </a>
+            <a href="flight.html">Flights</a>
+        
+            <a href="index.html">login out</a>
+            
+        </nav>
+    </header>
+    <main>
+        <div id="flightResult" class="flights-list">
+            <!-- This section will be populated with flight data dynamically -->
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve stored flight data from localStorage
+            let flights = JSON.parse(localStorage.getItem("flights")) || [];
+
+            // Function to render flights
+            const renderFlights = (manage = false) => {
+                const flightsList = document.querySelector('.flights-list');
+                flightsList.innerHTML = ''; // Clear existing flights
+
+                flights.forEach((flight, index) => {
+                    const flightCard = document.createElement('div');
+                    flightCard.className = 'card';
+
+                    let flightHTML = `
+                        <p>Destination: ${flight.destination}</p>
+                        <p>Current Location: ${flight.currentLocation}</p>
+                        <p>Departure Date: ${flight.departure}</p>
+                        <p>Return Date: ${flight.returnDate}</p>
+                    `;
+
+                    if (flight.picture) {
+                        flightHTML += `<img src="${flight.picture}" alt="Flight Picture">`;
+                    }
+
+                    if (manage) {
+                        flightHTML += `<button data-id="${index}">Delete</button>`;
+                    }
+
+                    flightCard.innerHTML = flightHTML;
+                    flightsList.appendChild(flightCard);
+                });
+            };
+
+            // Function to delete a flight
+            const deleteFlight = (id) => {
+                flights.splice(id, 1);
+                localStorage.setItem("flights", JSON.stringify(flights));
+                renderFlights(true); // Re-render the manage flights list
+            };
+
+            // Initial render
+            if (document.title === 'Manage Flights') {
+                renderFlights(true);
+
+                // Event listener for delete buttons
+                document.querySelector('.flights-list').addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const id = parseInt(e.target.getAttribute('data-id'));
+                        deleteFlight(id);
+                    }
+                });
+            } else {
+                renderFlights();
+            }
+        });
+    </script>
+</body>
+</html>

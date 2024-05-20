@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flights</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #74bad6;
+            margin: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card p {
+            margin: 10px 0;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #flightResult {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        header {
+            background-color: #1a2326;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #4c627b;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            margin: 20px 0;
+        }
+
+    </style>
+</head>
+<body>
+   
+    <header>
+       
+        <nav>
+            <a href="index.html">Home principal</a>
+           
+            
+            
+        </nav>
+    </header>
+    <h2>Flights</h2>
+    <div id="flightResult"></div>
+
+    <script>
+        let flights = JSON.parse(localStorage.getItem("flights")) || [];
+
+        flights.forEach(function(flight, index) {
+            displayFlightData(flight);
+        });
+
+        function displayFlightData(data) {
+            let flightResultDiv = document.getElementById("flightResult");
+            let flightCard = document.createElement("div");
+            flightCard.classList.add("card");
+
+            let flightHTML = `
+                <p>Destination: ${data.destination}</p>
+                <p>Current Location: ${data.currentLocation}</p>
+                <p>Departure Date: ${data.departure}</p>
+                <p>Return Date: ${data.returnDate}</p>
+                <img src="${data.picture}" alt="Flight Picture">
+            `;
+
+            flightCard.innerHTML = flightHTML;
+            flightResultDiv.appendChild(flightCard);
+        }
+    </script>
+    
+</body>
+</html>
